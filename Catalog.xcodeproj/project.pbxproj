@@ -19,6 +19,11 @@
 		AEAA45F6169F71E900B442BF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEAA45F4169F71E900B442BF /* MainStoryboard.storyboard */; };
 		AEAA45F9169F71E900B442BF /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAA45F8169F71E900B442BF /* MasterViewController.m */; };
 		AEAA45FC169F71E900B442BF /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAA45FB169F71E900B442BF /* DetailViewController.m */; };
+		AEAA4603169F720200B442BF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AEAA4602169F720200B442BF /* libxml2.dylib */; };
+		AEAA460C169F725400B442BF /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAA4607169F725400B442BF /* TFHpple.m */; };
+		AEAA460D169F725400B442BF /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAA4609169F725400B442BF /* TFHppleElement.m */; };
+		AEAA460E169F725400B442BF /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAA460B169F725400B442BF /* XPathQuery.m */; };
+		AEAA4611169F727000B442BF /* Results.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAA4610169F727000B442BF /* Results.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +45,15 @@
 		AEAA45F8169F71E900B442BF /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		AEAA45FA169F71E900B442BF /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		AEAA45FB169F71E900B442BF /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		AEAA4602169F720200B442BF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		AEAA4606169F725400B442BF /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		AEAA4607169F725400B442BF /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		AEAA4608169F725400B442BF /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		AEAA4609169F725400B442BF /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		AEAA460A169F725400B442BF /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		AEAA460B169F725400B442BF /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		AEAA460F169F727000B442BF /* Results.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Results.h; sourceTree = "<group>"; };
+		AEAA4610169F727000B442BF /* Results.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Results.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEAA4603169F720200B442BF /* libxml2.dylib in Frameworks */,
 				AEAA45DD169F71E900B442BF /* UIKit.framework in Frameworks */,
 				AEAA45DF169F71E900B442BF /* Foundation.framework in Frameworks */,
 				AEAA45E1169F71E900B442BF /* CoreGraphics.framework in Frameworks */,
@@ -59,6 +74,7 @@
 		AEAA45CD169F71E900B442BF = {
 			isa = PBXGroup;
 			children = (
+				AEAA4602169F720200B442BF /* libxml2.dylib */,
 				AEAA45E2169F71E900B442BF /* Catalog */,
 				AEAA45DB169F71E900B442BF /* Frameworks */,
 				AEAA45D9169F71E900B442BF /* Products */,
@@ -86,6 +102,8 @@
 		AEAA45E2169F71E900B442BF /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				AEAA4605169F723E00B442BF /* hpple */,
+				AEAA4604169F723800B442BF /* Model */,
 				AEAA45EB169F71E900B442BF /* AppDelegate.h */,
 				AEAA45EC169F71E900B442BF /* AppDelegate.m */,
 				AEAA45F4169F71E900B442BF /* MainStoryboard.storyboard */,
@@ -110,6 +128,28 @@
 				AEAA45F2169F71E900B442BF /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AEAA4604169F723800B442BF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AEAA460F169F727000B442BF /* Results.h */,
+				AEAA4610169F727000B442BF /* Results.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		AEAA4605169F723E00B442BF /* hpple */ = {
+			isa = PBXGroup;
+			children = (
+				AEAA4606169F725400B442BF /* TFHpple.h */,
+				AEAA4607169F725400B442BF /* TFHpple.m */,
+				AEAA4608169F725400B442BF /* TFHppleElement.h */,
+				AEAA4609169F725400B442BF /* TFHppleElement.m */,
+				AEAA460A169F725400B442BF /* XPathQuery.h */,
+				AEAA460B169F725400B442BF /* XPathQuery.m */,
+			);
+			name = hpple;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -182,6 +222,10 @@
 				AEAA45ED169F71E900B442BF /* AppDelegate.m in Sources */,
 				AEAA45F9169F71E900B442BF /* MasterViewController.m in Sources */,
 				AEAA45FC169F71E900B442BF /* DetailViewController.m in Sources */,
+				AEAA460C169F725400B442BF /* TFHpple.m in Sources */,
+				AEAA460D169F725400B442BF /* TFHppleElement.m in Sources */,
+				AEAA460E169F725400B442BF /* XPathQuery.m in Sources */,
+				AEAA4611169F727000B442BF /* Results.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +306,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Catalog/Catalog-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Catalog/Catalog-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -273,6 +318,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Catalog/Catalog-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Catalog/Catalog-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

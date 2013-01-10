@@ -9,6 +9,8 @@
 #import "MasterViewController.h"
 
 #import "DetailViewController.h"
+#import "TFHpple.h"
+#import "Results.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
@@ -17,55 +19,142 @@
 
 @implementation MasterViewController
 
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
+-(NSString *)fkStringByEscapingURIComponent:(NSString *)stringWithSpecialChaarcters {
+	return [(__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
+																				  (__bridge CFStringRef)stringWithSpecialChaarcters,
+																				  NULL,
+																				  (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+																				  kCFStringEncodingUTF8)
+			stringByReplacingOccurrencesOfString:@" " withString:@"+"];
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+-(NSString *)fkStringByUnescapingURIComponent:(NSString *)stringWithPercentEscapes {
+	return [[stringWithPercentEscapes stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+			stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-- (void)insertNewObject:(id)sender
-{
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
+-(NSString *)fkURLQueryString:(NSDictionary *)parameterDictionary {
+    NSMutableArray *outParameters = [[NSMutableArray alloc] init];
+    for(id key in [parameterDictionary keysOfEntriesPassingTest:^BOOL(id key, id obj, BOOL *stop) {
+        return ([key isKindOfClass:[NSString class]] || [key respondsToSelector:@selector(stringValue)])
+        && ([obj isKindOfClass:[NSString class]] || [obj respondsToSelector:@selector(stringValue)]);
+    }]){
+        id value = [parameterDictionary objectForKey:key];
+        NSString *pName = [key isKindOfClass:[NSString class]]?key:[key stringValue];
+        NSString *pValue = [value isKindOfClass:[NSString class]]?value:[value stringValue];
+        [outParameters addObject:[NSString stringWithFormat:@"%@=%@",
+                                  [self fkStringByEscapingURIComponent:pName],
+                                  [self fkStringByEscapingURIComponent:pValue]]];
     }
-    [_objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    return [outParameters componentsJoinedByString:@"&"];
 }
+
+-(void)loadResults:(NSString *)title {
+    
+    NSString *urlString = [@"http://ecatalog.coronado.lib.ca.us/search~S0/?searchtype=t&searcharg=" stringByAppendingString:[self fkStringByEscapingURIComponent:title]];
+    
+    NSURL *resultsUrl = [NSURL URLWithString:urlString];
+    
+    NSData *resultsHtmlData = [NSData dataWithContentsOfURL:resultsUrl];
+    
+    TFHpple *resultsParser = [TFHpple hppleWithHTMLData:resultsHtmlData];
+    
+    NSString *resultsXpathQueryString = @"//td[@class='browseEntryData']/a[2]";
+    NSArray *resultsNodes = [resultsParser searchWithXPathQuery:resultsXpathQueryString];
+    
+    NSMutableArray *newResults = [[NSMutableArray alloc] initWithCapacity:0];
+    for (TFHppleElement *element in resultsNodes) {
+        
+        Results *result = [[Results alloc] init];
+        [newResults addObject:result];
+        
+        result.title = [[element firstChild] content];
+        
+        result.url = [element objectForKey:@"href"];
+    }
+    
+    _objects = newResults;
+    [self.tableView reloadData];
+}
+
+- (void)loadResults {
+    
+    NSURL *resultsUrl = [NSURL URLWithString:@"http://ecatalog.coronado.lib.ca.us/search~S0/?searchtype=t&searcharg=finding+nemo&sortdropdown=-&SORT=D&extended=0&SUBMIT=Search&searchlimits=&searchorigarg=tfinding+nemo"];
+    NSData *resultsHtmlData = [NSData dataWithContentsOfURL:resultsUrl];
+    
+    TFHpple *resultsParser = [TFHpple hppleWithHTMLData:resultsHtmlData];
+    
+    NSString *resultsXpathQueryString = @"//td[@class='browseEntryData']/a[2]";
+    NSArray *resultsNodes = [resultsParser searchWithXPathQuery:resultsXpathQueryString];
+    
+    NSMutableArray *newResults = [[NSMutableArray alloc] initWithCapacity:0];
+    for (TFHppleElement *element in resultsNodes) {
+        
+        Results *result = [[Results alloc] init];
+        [newResults addObject:result];
+        
+        result.title = [[element firstChild] content];
+        
+        result.url = [element objectForKey:@"href"];
+    }
+    
+    _objects = newResults;
+    [self.tableView reloadData];
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = NSLocalizedString(@"Master", @"Master");
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self loadResults];
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
 
 #pragma mark - Table View
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _objects.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
+    
+    Results *thisResult = [_objects objectAtIndex:indexPath.row];
+    cell.textLabel.text = thisResult.title;
+    cell.detailTextLabel.text = thisResult.url;
+    
     return cell;
 }
 
@@ -79,35 +168,20 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [_objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
 }
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+	if ([segue.identifier isEqualToString:@"showDetail"])
+	{
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
-    }
+        DetailViewController *destViewController = segue.destinationViewController;
+        destViewController.resultsLabelString = [_objects objectAtIndex:indexPath.row];
+	}
 }
 
 @end

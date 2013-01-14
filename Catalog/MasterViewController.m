@@ -70,8 +70,6 @@
         [newResults addObject:result];
         
         result.title = [[element firstChild] content];
-        
-        result.url = [element objectForKey:@"href"];
     }
     
     _objects = newResults;
@@ -95,12 +93,11 @@
         [newResults addObject:result];
         
         result.title = [[element firstChild] content];
-        
-        result.url = [element objectForKey:@"href"];
     }
     
     _objects = newResults;
     [self.tableView reloadData];
+    
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -153,35 +150,17 @@
     
     Results *thisResult = [_objects objectAtIndex:indexPath.row];
     cell.textLabel.text = thisResult.title;
-    cell.detailTextLabel.text = thisResult.url;
     
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	if ([segue.identifier isEqualToString:@"showDetail"])
-	{
+	if ([segue.identifier isEqualToString:@"showObjectDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         DetailViewController *destViewController = segue.destinationViewController;
-        destViewController.resultsLabelString = [_objects objectAtIndex:indexPath.row];
-	}
+        destViewController.practiceName = [_objects objectAtIndex:indexPath.row];
+    }
 }
 
 @end

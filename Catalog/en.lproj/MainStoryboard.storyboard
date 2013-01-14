@@ -47,7 +47,7 @@
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="21" kind="push" identifier="showDetail" id="jZb-fq-zAk"/>
+                                    <segue destination="21" kind="push" identifier="showObjectDetail" id="jZb-fq-zAk"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -71,9 +71,10 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUN-4J-hUq">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mw2-de-pSN">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="58" id="ofd-du-WQl"/>
+                                    <constraint firstAttribute="width" constant="260" id="EJh-n1-O8v"/>
+                                    <constraint firstAttribute="height" constant="112" id="IcH-ca-5dA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -82,14 +83,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wUN-4J-hUq" firstAttribute="top" secondItem="22" secondAttribute="top" constant="172" id="AFC-LR-W5r"/>
-                            <constraint firstItem="wUN-4J-hUq" firstAttribute="leading" secondItem="22" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="WlH-GS-Mv2"/>
-                            <constraint firstAttribute="trailing" secondItem="wUN-4J-hUq" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="k5W-DH-ptM"/>
+                            <constraint firstItem="Mw2-de-pSN" firstAttribute="top" secondItem="22" secondAttribute="top" constant="180" id="EOL-hG-HmM"/>
+                            <constraint firstItem="Mw2-de-pSN" firstAttribute="leading" secondItem="22" secondAttribute="leading" constant="28" id="PKQ-qH-WZJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Detail" id="26"/>
                     <connections>
-                        <outlet property="resultsLabel" destination="wUN-4J-hUq" id="Q4B-Iu-Z0j"/>
+                        <outlet property="practiceLabel" destination="Mw2-de-pSN" id="oHB-51-KdN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
@@ -97,20 +97,6 @@
             <point key="canvasLocation" x="902" y="64"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="DetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="resultsLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="MasterViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MasterViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -9,12 +9,13 @@
 #import "DetailViewController.h"
 
 @interface DetailViewController ()
-- (void)configureView;
+
 @end
 
 @implementation DetailViewController
 
-@synthesize resultsLabel = _resultsLabel, resultsLabelString = _resultsLabelString;
+@synthesize practiceName = _practiceName;
+@synthesize practiceLabel = _practiceLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,7 +30,7 @@
 {
     [super viewDidLoad];
     
-    _resultsLabel.text = _resultsLabelString;
+    _practiceLabel.text = [_practiceName valueForKey:@"title"];
     
 	// Do any additional setup after loading the view.
 }

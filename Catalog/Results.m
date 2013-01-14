@@ -10,6 +10,6 @@
 
 @implementation Results
 
-@synthesize title =_title, url = _url;
+@synthesize title =_title;
 
 @end

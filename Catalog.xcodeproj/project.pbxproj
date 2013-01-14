@@ -344,6 +344,7 @@
 				AEAA4601169F71E900B442BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

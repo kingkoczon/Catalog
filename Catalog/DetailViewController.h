@@ -10,7 +10,8 @@
 
 @interface DetailViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *resultsLabel;
-@property (strong, nonatomic) NSString *resultsLabelString;
+@property (strong, nonatomic) IBOutlet UILabel *practiceLabel;
+
+@property (strong, nonatomic) NSString *practiceName;
 
 @end
